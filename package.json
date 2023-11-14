@@ -1,0 +1,32 @@
+{
+  "name": "fce202-webpack",
+  "version": "1.0.0",
+  "description": "The original site of this webpage can be found on https://www.bar-e-passione.com/ This page is for the demonstration purpose of how we can improve the PSI scores (web performance) by applying module bundler technique with the integration of Webpack",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --config webpack.config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nnatebach/fce202-webpack-demo.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nnatebach/fce202-webpack-demo/issues"
+  },
+  "homepage": "https://github.com/nnatebach/fce202-webpack-demo#readme",
+  "devDependencies": {
+    "clean-webpack-plugin": "^4.0.0",
+    "css-loader": "^6.8.1",
+    "html-webpack-plugin": "^5.5.3",
+    "mini-css-extract-plugin": "^2.7.6",
+    "node-sass": "^9.0.0",
+    "style-loader": "^3.3.3",
+    "webpack": "^5.89.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^4.15.1"
+  }
+}
