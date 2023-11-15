@@ -4,17 +4,23 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const path = require('path');
 
 module.exports = {
-  entry: 'index.js',
+  entry: './src/index.js',
   output: {
     path: path.resolve(__dirname, './dist'),
     filename: 'bundle.js',
+
+    publicPath: ''
   },
-  mode: 'none',
+  mode: 'production',
   module: {
     rules: [
       {
+        test: /\.html$/,
+        loader: "html-loader",
+      },
+      {
         test: /\.css$/,
-        use: [MiniCssExtractPlugin.loader, "css-loader"],
+        use: ["style-loader", "css-loader"],
       },
       {
         test: /\.(png|jpg)$/,
@@ -23,12 +29,10 @@ module.exports = {
     ],
   },
   plugins: [
-    new HtmlWebpackPlugin({
-      title: 'index'
-    }),
+    new HtmlWebpackPlugin(),
     new CleanWebpackPlugin(),
     new MiniCssExtractPlugin({
-      filename: 'style.[contenthash].css'
+      filename: '[name].[contenthash].css'
     })
   ],
   optimization: {
