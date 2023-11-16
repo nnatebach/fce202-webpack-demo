@@ -4,7 +4,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const path = require('path');
 
 module.exports = {
-  entry: './src/index.js',
+  entry: './index.html',
   output: {
     path: path.resolve(__dirname, './dist'),
     filename: 'bundle.js',
@@ -16,7 +16,12 @@ module.exports = {
     rules: [
       {
         test: /\.html$/,
-        loader: "html-loader",
+        use: {
+          loader: "html-loader",
+          options: {
+            minimize: false
+          }
+        }
       },
       {
         test: /\.css$/,
@@ -24,20 +29,21 @@ module.exports = {
       },
       {
         test: /\.(png|jpg)$/,
-        type: 'asset'
+        type: 'asset/resource'
       }
     ],
   },
   plugins: [
-    new HtmlWebpackPlugin(),
+    new MiniCssExtractPlugin(),
     new CleanWebpackPlugin(),
-    new MiniCssExtractPlugin({
-      filename: '[name].[contenthash].css'
-    })
+    new HtmlWebpackPlugin({
+      template: './index.html'
+    }),
   ],
   optimization: {
-   splitChunks: {
-    chunks: 'all'
-   },
+    minimize: false,
+    splitChunks: {
+      chunks: 'all'
+    },
   },
 };
