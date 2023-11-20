@@ -1,16 +1,15 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const CopyPlugin = require("copy-webpack-plugin");
 const path = require('path');
 
 module.exports = {
   entry: './index.js',
   output: {
     path: path.resolve(__dirname, './dist'),
-    filename: 'index.js',
+    filename: 'main.[contenthash].js',
 
-    publicPath: '/dist'
+    publicPath: ''
   },
   mode: 'production',
   module: {
@@ -47,18 +46,13 @@ module.exports = {
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       filename: 'index.html',
-      template: './index.hbs'
-    }),
-    new CopyPlugin({
-      patterns: [
-        { from: "./shared", to: "./shared" },
-      ],
+      template: './index.hbs',
+      minify: {
+        collapseWhitespace: false
+      }
     }),
   ],
   optimization: {
-    minimize: [
-      new CssMinimizerPlugin(),
-    ],
     splitChunks: {
       chunks: 'all'
     },
