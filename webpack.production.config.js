@@ -4,7 +4,16 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const path = require('path');
 
 module.exports = {
-  entry: './index.js',
+  entry: {
+    index: [
+      './index.js',
+      './shared/css/common.css',
+      './shared/css/header.css',
+      './shared/css/index.css',
+      './shared/css/shared.css',
+      './shared/css/slick.min.css'
+    ]
+  },
   output: {
     path: path.resolve(__dirname, './dist'),
     filename: 'main.[contenthash].js',
@@ -25,11 +34,16 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: [MiniCssExtractPlugin.loader, "css-loader"],
+        use: [MiniCssExtractPlugin.loader, {
+          loader: "css-loader",
+          options: {
+            url: false
+          }
+        }],
       },
       {
         test: /\.(png|jpg)$/,
-        type: 'asset/resource'
+        type: 'asset/resource',
       },
       {
         test: /\.hbs$/,
