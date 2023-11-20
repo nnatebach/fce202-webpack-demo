@@ -1,10 +1,11 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const CopyPlugin = require("copy-webpack-plugin");
 const path = require('path');
 
 module.exports = {
-  entry: './src/index.js',
+  entry: './index.js',
   output: {
     path: path.resolve(__dirname, './dist'),
     filename: 'bundle.[contenthash].js',
@@ -31,24 +32,41 @@ module.exports = {
     rules: [
       {
         test: /\.html$/,
-        loader: "html-loader",
+        use: {
+          loader: "html-loader",
+          options: {
+            minimize: false
+          }
+        }
       },
       {
         test: /\.css$/,
-        use: [MiniCssExtractPlugin.loader, "css-loader"],
+        use: ["style-loader", "css-loader"],
       },
       {
         test: /\.(png|jpg)$/,
-        type: 'asset'
+        type: 'asset/resource'
+      },
+      {
+        test: /\.hbs$/,
+        use: [
+          'handlebars-loader'
+        ]
       }
     ],
   },
   plugins: [
-    new HtmlWebpackPlugin(),
+    new MiniCssExtractPlugin(),
     new CleanWebpackPlugin(),
-    new MiniCssExtractPlugin({
-      filename: '[name].[contenthash].css'
-    })
+    new HtmlWebpackPlugin({
+      filename: 'index.html',
+      template: './index.hbs'
+    }),
+    new CopyPlugin({
+      patterns: [
+        { from: "./shared", to: "./shared" },
+      ],
+    }),
   ],
   optimization: {
    splitChunks: {

@@ -1,15 +1,16 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const CopyPlugin = require("copy-webpack-plugin");
 const path = require('path');
 
 module.exports = {
-  entry: './index.html',
+  entry: './index.js',
   output: {
     path: path.resolve(__dirname, './dist'),
-    filename: 'bundle.js',
+    filename: 'index.js',
 
-    publicPath: ''
+    publicPath: '/dist'
   },
   mode: 'production',
   module: {
@@ -25,23 +26,39 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: ["style-loader", "css-loader"],
+        use: [MiniCssExtractPlugin.loader, "css-loader"],
       },
       {
         test: /\.(png|jpg)$/,
         type: 'asset/resource'
+      },
+      {
+        test: /\.hbs$/,
+        use: [
+          'handlebars-loader'
+        ]
       }
     ],
   },
   plugins: [
-    new MiniCssExtractPlugin(),
+    new MiniCssExtractPlugin({
+      filename: '[name].[contenthash].css'
+    }),
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
-      template: './index.html'
+      filename: 'index.html',
+      template: './index.hbs'
+    }),
+    new CopyPlugin({
+      patterns: [
+        { from: "./shared", to: "./shared" },
+      ],
     }),
   ],
   optimization: {
-    minimize: false,
+    minimize: [
+      new CssMinimizerPlugin(),
+    ],
     splitChunks: {
       chunks: 'all'
     },

@@ -1,0 +1,1 @@
+{"status":"error","message":"Invalid data format","script":{"namespace":"RSS","version":"1.3"}}
