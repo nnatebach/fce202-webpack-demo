@@ -8,3 +8,9 @@ The reference for this page PSI practice can be found at https://github.com/vann
 Problem: Missing assets (images) from CSS files
 Solution: Ignore urls (missing files) in CSS files only
 How to fix: https://github.com/webpack-contrib/mini-css-extract-plugin/issues/320
+
+splitChunks.minSize - https://webpack.js.org/plugins/split-chunks-plugin/#splitchunksminsize
+Minimum size, in bytes, for a chunk to be generated
+
+splitChunks.maxSize - https://webpack.js.org/plugins/split-chunks-plugin/#splitchunksmaxsize
+tells webpack to try to split chunks bigger than maxSize bytes into smaller parts. Parts will be at least minSize (next to maxSize) in size.
