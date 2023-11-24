@@ -1,18 +1,26 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const CopyPlugin = require("copy-webpack-plugin");
 const path = require('path');
 
 module.exports = {
-  entry: './index.js',
+  entry: {
+    index: [
+      './index.js',
+      './shared/css/common.css',
+      './shared/css/header.css',
+      './shared/css/index.css',
+      './shared/css/shared.css',
+      './shared/css/slick.min.css'
+    ]
+  },
   output: {
     path: path.resolve(__dirname, './dist'),
-    filename: 'bundle.[contenthash].js',
+    filename: 'main.[contenthash].js',
 
     publicPath: ''
   },
-  mode: 'development',
+  mode: 'production',
 
   devServer: {
     port: 9000, // 1. a port on which this server will be running (e.g. 9000)
@@ -28,6 +36,7 @@ module.exports = {
       writeToDisk: true // 4. Have Webpack dev server explicitly writing the generated files to the 'dist' folder
     }
   },
+
   module: {
     rules: [
       {
@@ -41,11 +50,16 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: ["style-loader", "css-loader"],
+        use: [MiniCssExtractPlugin.loader, {
+          loader: "css-loader",
+          options: {
+            url: false
+          }
+        }],
       },
       {
         test: /\.(png|jpg)$/,
-        type: 'asset/resource'
+        type: 'asset/resource',
       },
       {
         test: /\.hbs$/,
@@ -56,21 +70,21 @@ module.exports = {
     ],
   },
   plugins: [
-    new MiniCssExtractPlugin(),
+    new MiniCssExtractPlugin({
+      filename: 'styles.[contenthash].css'
+    }),
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       filename: 'index.html',
-      template: './index.hbs'
-    }),
-    new CopyPlugin({
-      patterns: [
-        { from: "./shared", to: "./shared" },
-      ],
+      template: './index.hbs',
+      minify: {
+        collapseWhitespace: false
+      }
     }),
   ],
   optimization: {
-   splitChunks: {
-    chunks: 'all'
-   },
+    splitChunks: {
+      chunks: 'all'
+    },
   },
 };

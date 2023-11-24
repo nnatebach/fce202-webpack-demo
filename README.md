@@ -5,5 +5,6 @@ This page is for the demonstration purpose of how we can improve the PSI scores 
 The reference for this page PSI practice can be found at https://github.com/vannizhang/web-performance-optimization-with-webpack
 
 
-Problem: Ignore urls (missing files) in CSS files only
-Solution: https://github.com/webpack-contrib/mini-css-extract-plugin/issues/320
+Problem: Missing assets (images) from CSS files
+Solution: Ignore urls (missing files) in CSS files only
+How to fix: https://github.com/webpack-contrib/mini-css-extract-plugin/issues/320
