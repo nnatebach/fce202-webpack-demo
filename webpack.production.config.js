@@ -68,5 +68,6 @@ module.exports = {
       minSize: 3000, // Minimum size, in bytes, for a chunk to be generated.
       maxSize: 200000
     },
+    runtimeChunk: 'single'
   },
 };
