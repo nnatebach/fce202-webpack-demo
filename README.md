@@ -9,6 +9,8 @@ Problem: Missing assets (images) from CSS files
 Solution: Ignore urls (missing files) in CSS files only
 How to fix: https://github.com/webpack-contrib/mini-css-extract-plugin/issues/320
 
+Minify CSS - https://webpack.js.org/plugins/css-minimizer-webpack-plugin/
+
 splitChunks.minSize - https://webpack.js.org/plugins/split-chunks-plugin/#splitchunksminsize
 Minimum size, in bytes, for a chunk to be generated
 

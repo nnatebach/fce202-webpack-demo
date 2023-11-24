@@ -61,7 +61,7 @@ module.exports = {
   ],
   optimization: {
     minimizer: [
-      new CssMinimizerPlugin()
+      new CssMinimizerPlugin() // Minify CSS
     ],
     splitChunks: {
       chunks: 'all',
