@@ -16,3 +16,8 @@ Minimum size, in bytes, for a chunk to be generated
 
 splitChunks.maxSize - https://webpack.js.org/plugins/split-chunks-plugin/#splitchunksmaxsize
 tells webpack to try to split chunks bigger than maxSize bytes into smaller parts. Parts will be at least minSize (next to maxSize) in size.
+
+image-minimizer-webpack-plugin - https://github.com/iampava/imagemin-webp-webpack-plugin
+Convert images to ".webp" format without deleting the original images
+.jpg => .jpg.webp
+.png => .png.webp

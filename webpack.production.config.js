@@ -2,6 +2,9 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const TerserPlugin = require("terser-webpack-plugin");
+const CopyPlugin = require("copy-webpack-plugin");
+const ImageminWebpWebpackPlugin= require("imagemin-webp-webpack-plugin");
 const path = require('path');
 
 module.exports = {
@@ -46,6 +49,13 @@ module.exports = {
     ],
   },
   plugins: [
+    new CopyPlugin({
+      patterns: [
+        {
+          from: "./shared", to: "./shared"
+        }
+      ],
+    }),
     new MiniCssExtractPlugin({
       filename: 'styles.[contenthash].css'
     }),
@@ -54,20 +64,34 @@ module.exports = {
       filename: 'index.html',
       template: './index.hbs',
       minify: {
-        collapseWhitespace: false
+        collapseWhitespace: false,
+        removeComments: false,
       }
     }),
-    new CssMinimizerPlugin()
+    new CssMinimizerPlugin(),
   ],
   optimization: {
+    minimize: true,
     minimizer: [
-      new CssMinimizerPlugin() // Minify CSS
+      new CssMinimizerPlugin(), // Minify CSS
+      new TerserPlugin(),
+      new ImageminWebpWebpackPlugin({
+        config: [{
+          test: /\.(jpe?g|png|svg)/,
+          options: {
+            quality: 100
+          }
+        }],
+        overrideExtension: false,
+        detailedLogs: true,
+        silent: true,
+        strict: true
+      })
     ],
     splitChunks: {
       chunks: 'all',
       minSize: 3000, // Minimum size, in bytes, for a chunk to be generated.
       maxSize: 200000
     },
-    runtimeChunk: 'single'
   },
 };
