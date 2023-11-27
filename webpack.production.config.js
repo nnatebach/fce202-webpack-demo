@@ -5,6 +5,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const TerserPlugin = require("terser-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
 const ImageminWebpWebpackPlugin= require("imagemin-webp-webpack-plugin");
+const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
 const path = require('path');
 
 module.exports = {
@@ -86,7 +87,36 @@ module.exports = {
         detailedLogs: true,
         silent: true,
         strict: true
-      })
+      }),
+      new ImageMinimizerPlugin({
+        minimizer: {
+          implementation: ImageMinimizerPlugin.sharpMinify,
+          options: {
+            encodeOptions: {
+              jpeg: {
+                // https://sharp.pixelplumbing.com/api-output#jpeg
+                quality: 100,
+              },
+              webp: {
+                // https://sharp.pixelplumbing.com/api-output#webp
+                lossless: true,
+              },
+              avif: {
+                // https://sharp.pixelplumbing.com/api-output#avif
+                lossless: true,
+              },
+
+              // png by default sets the quality to 100%, which is same as lossless
+              // https://sharp.pixelplumbing.com/api-output#png
+              png: {},
+
+              // gif does not support lossless compression at all
+              // https://sharp.pixelplumbing.com/api-output#gif
+              gif: {},
+            },
+          },
+        },
+      }),
     ],
     splitChunks: {
       chunks: 'all',
