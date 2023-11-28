@@ -33,7 +33,7 @@ module.exports = {
         use: [MiniCssExtractPlugin.loader, {
           loader: "css-loader",
           options: {
-            url: false
+            url: false,
           }
         }],
       },
@@ -58,7 +58,7 @@ module.exports = {
       ],
     }),
     new MiniCssExtractPlugin({
-      filename: 'styles.[contenthash].css'
+      filename: './shared/css/styles.[contenthash].css',
     }),
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
