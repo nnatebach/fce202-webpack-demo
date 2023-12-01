@@ -33,3 +33,8 @@ Convert images to ".webp" format without deleting the original images
 image-minimizer-webpack-plugin - https://www.npmjs.com/package/image-minimizer-webpack-plugin
 Optimize (compress) all images using imagemin. No matter how large the size of the images turn out to be, they are always optimized/compressed.
 Optimize with "sharp" - https://webpack.js.org/plugins/image-minimizer-webpack-plugin/#optimize-with-sharp
+
+================================
+
+Inline Critical CSS - https://github.com/anthonygore/html-critical-webpack-plugin
+This plugin extracts critical CSS and runs after all files have been emitted so you can use it after Mini CSS Extract Plugin and HTML Webpack Plugin.

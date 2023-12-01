@@ -1,4 +1,0 @@
-/*!
- * ScriptName: common.js
- * Version: 3.0.8
- */

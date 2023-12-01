@@ -1,6 +1,7 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+const HtmlCriticalWebpackPlugin = require("html-critical-webpack-plugin");
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const TerserPlugin = require("terser-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
@@ -12,7 +13,7 @@ module.exports = {
   entry: './index.js',
   output: {
     path: path.resolve(__dirname, './dist'),
-    filename: 'script.[contenthash].js',
+    filename: './shared/js/script.[contenthash].js',
 
     publicPath: ''
   },
@@ -70,6 +71,19 @@ module.exports = {
       }
     }),
     new CssMinimizerPlugin(),
+    new HtmlCriticalWebpackPlugin({
+      base: path.resolve(__dirname, './dist'),
+      src: 'index.html',
+      dest: 'index.html',
+      inline: true,
+      minify: true,
+      extract: true,
+      width: 375,
+      height: 565,
+      penthouse: {
+        blockJSRequests: false,
+      }
+    })
   ],
   optimization: {
     minimize: true,
@@ -119,9 +133,25 @@ module.exports = {
       }),
     ],
     splitChunks: {
-      chunks: 'all',
-      minSize: 3000, // Minimum size, in bytes, for a chunk to be generated.
-      maxSize: 200000
+      chunks: 'async',
+      minSize: 20000,
+      minRemainingSize: 0,
+      minChunks: 1,
+      maxAsyncRequests: 30,
+      maxInitialRequests: 30,
+      enforceSizeThreshold: 50000,
+      cacheGroups: {
+        defaultVendors: {
+          test: /[\\/]node_modules[\\/]/,
+          priority: -10,
+          reuseExistingChunk: true,
+        },
+        default: {
+          minChunks: 2,
+          priority: -20,
+          reuseExistingChunk: true,
+        },
+      },
     },
   },
 };
